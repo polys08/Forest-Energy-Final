@@ -114,6 +114,12 @@ body.dark .header {
     background-color: rgba(0, 0, 0, 0.92);
 }
 
+.site-blur {
+    filter: blur(10px);
+    pointer-events: none;
+    user-select: none;
+}
+
 /* HERO */
 .hero {
     position: relative;

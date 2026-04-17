@@ -1,6 +1,4 @@
-// =====================
-// MENU HAMBURGUER
-// =====================
+
 const hamburger = document.getElementById('hamburger');
 const nav = document.getElementById('nav');
 
@@ -15,16 +13,16 @@ const links = document.querySelectorAll('.nav-list a');
 
 links.forEach(link => {
     link.addEventListener('click', () => {
-        nav.classList.remove('active');
-        hamburger.classList.remove('active');
+        if (nav && hamburger) {
+            nav.classList.remove('active');
+            hamburger.classList.remove('active');
+        }
     });
 });
 
 console.log("JS funcionando");
 
-// =====================
-// INFO DO JOGO
-// =====================
+
 const nomedojogo = "Forest Energy";
 const anolancamento = 2026;
 const desenvolvedor = "Polyana Lima";
@@ -38,54 +36,49 @@ if (info) {
         `${nomedojogo} | Ano: ${anolancamento} | Dev: ${desenvolvedor} | Gênero: ${genero} | Classificação: ${classificacao}+`;
 }
 
-// =====================
-// PROMPT JOGADOR
-// =====================
+
 let nome = prompt("Digite seu nome:");
 let idade = Number(prompt("Digite sua idade:"));
 
 const mensagem = document.getElementById("mensagem");
 
-if (mensagem) {
+if (mensagem && nome) {
     mensagem.innerText = `Bem-vindo a floresta, ${nome}!`;
 }
 
-// =====================
-// CONTEÚDO SENSÍVEL (BLUR)
-// =====================
-const imagens = [
-    document.getElementById("conteudosensivel"),
-    document.getElementById("conteudosensivel2"),
-    document.getElementById("conteudosensivel3")
-];
 
-if (idade >= 8) {
-    alert(`Jogador ${nome}, acesso liberado`);
+if (idade < 8) {
 
-    imagens.forEach(img => {
-        if (img) img.style.filter = "blur(0px)";
-    });
+    document.body.classList.add("site-blur");
+
+    const overlay = document.createElement("div");
+    overlay.innerHTML = `
+        <div style="background:#222;color:white;padding:30px;border-radius:10px;text-align:center;">
+            <h2>Acesso negado</h2>
+            <p>Você precisa ter pelo menos 8 anos</p>
+        </div>
+    `;
+
+    overlay.style.position = "fixed";
+    overlay.style.inset = "0";
+    overlay.style.background = "rgba(0,0,0,0.85)";
+    overlay.style.display = "flex";
+    overlay.style.justifyContent = "center";
+    overlay.style.alignItems = "center";
+    overlay.style.zIndex = "9999";
+
+    document.body.appendChild(overlay);
 
 } else {
-    alert("Acesso negado");
-
-    imagens.forEach(img => {
-        if (img) img.style.filter = "blur(10px)";
-    });
+    console.log("Acesso liberado");
 }
 
-// =====================
-// ANO DE LANÇAMENTO
-// =====================
 const anoAtual = new Date().getFullYear();
 
 if (anoAtual === anolancamento) {
     alert("Grande Lançamento!");
 }
 
-// =====================
-// TEMA (DARK MODE FUNCIONAL)
-// =====================
 
 function trocarTema() {
     document.body.classList.toggle("dark");
@@ -101,7 +94,6 @@ function trocarTema() {
     }
 }
 
-// aplicar tema ao carregar página (index OU persona)
 window.addEventListener("DOMContentLoaded", () => {
     const temaSalvo = localStorage.getItem("tema");
     const botao = document.getElementById("botaoTema");
@@ -113,13 +105,16 @@ window.addEventListener("DOMContentLoaded", () => {
         document.body.classList.remove("dark");
         if (botao) botao.innerText = "🌙";
     }
-
 });
 
-btnJogar.addEventListener("click", function (e) {
-    e.preventDefault();
 
-    game.classList.remove("hidden");
+const btnJogar = document.querySelector(".btn-img");
+const game = document.querySelector(".game-frame");
 
-    game.scrollIntoView({ behavior: "smooth" });
-});
+if (btnJogar && game) {
+    btnJogar.addEventListener("click", function (e) {
+        e.preventDefault();
+        game.classList.remove("hidden");
+        game.scrollIntoView({ behavior: "smooth" });
+    });
+}
